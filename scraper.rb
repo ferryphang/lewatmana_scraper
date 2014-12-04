@@ -7,7 +7,11 @@ class LewatMana
 
   def initialize url, directory
     @url = url
-    @directory = directory
+    @directory = File.expand_path(File.dirname(__FILE__)) + directory
+  end
+
+  def path
+    
   end
 
   def scrape
