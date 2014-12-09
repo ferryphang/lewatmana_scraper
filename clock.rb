@@ -5,15 +5,15 @@ module Clockwork
   handler do |job|
     puts "Running #{job}"
   end
-
-  every(1.minute, 'Scrape MOI Kelapa Gading CCTV') {
-    moi = LewatMana.new "http://lewatmana.com/cam/209/moi-kelapa-gading/", "/data"
+  
+  moi = LewatMana.new "http://lewatmana.com/cam/209/moi-kelapa-gading/", "MOI", "data", "timelapse"
+  
+  every(1.minute, 'Scrape MOI Kelapa Gading CCTV') { 
     moi.scrape
   }
 
   every(5.minutes, 'Build GIF') {
-    project_dir = File.expand_path(File.dirname(__FILE__))
-    system("convert #{project_dir + '/data/*.jpg' } #{project_dir + '/timelapse/MOI.gif'}")
+    system("convert #{moi.all_image} #{moi.timelapse_directory}")
   }
 
 end
